@@ -14,7 +14,6 @@ const UserProfile = () => {
     const [open, setOpen] = useState(false)
 
     const handleSubmit = async () => {
-        console.log(errors);
         if (await isFormValid()) {
             console.log("valid");
             const result = await ApiService.updateProfile(values);
@@ -34,13 +33,10 @@ const UserProfile = () => {
                 "There was an issue fetching the data. Please try again later.",);
         }
     }
-    const handleCalendar = () => {
-        setOpen((prev) => !prev);
-    }
 
     useEffect(() => {
         fetchData();
-    }, [])
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -67,7 +63,7 @@ const UserProfile = () => {
                     <Text style={styles.fieldTitle} >DOB</Text>
                     <TouchableOpacity style={styles.FieldContainer} onPress={() => setOpen(true)}>
                         <Ionicons name={"calendar"} color={colors.primary} size={20} />
-                        <TextInput style={styles.textInput} value={values.dob ? values.dob.toLocaleDateString : ""} editable={false} />
+                        <TextInput style={styles.textInput} value={values.dob ? values.dob : ""} editable={false} />
                     </TouchableOpacity>
                     <View style={styles.updateBC}>
                         <TouchableOpacity style={styles.updateButton} onPress={handleSubmit}>
@@ -81,6 +77,7 @@ const UserProfile = () => {
                         date={date}
                         onConfirm={(date) => {
                             console.log(date.toLocaleDateString())
+                            handleChange("dob", date.toLocaleDateString())
                             setOpen(false)
                             setDate(date)
                         }}

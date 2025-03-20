@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from '../utils/colors';
 import { fonts } from '../utils/fonts';
@@ -8,9 +8,44 @@ import { ApiService } from '../services';
 import useForm from '../hooks/useForm';
 import formSchema from '../schemas/formSchema';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+
 const LoginScreen = () => {
     const { values, handleChange, isFormValid, errors } = useForm({}, formSchema.login);
     const [secureEntry, setSecureEntry] = useState(true);
+
+    useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: "721406346367-455o8860d4u6uda63496q6rjfbmlsnbf.apps.googleusercontent.com",
+        });
+    }, []);
+
+    async function onGoogleButtonPress() {
+        try {
+            // Check if your device supports Google Play
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+            // Get the users ID token
+            const signInResult = await GoogleSignin.signIn();
+            console.log(signInResult);
+            // Try the new style of google-sign in result, from v13+ of that module
+            idToken = signInResult.data?.idToken;
+            if (!idToken) {
+                // if you are using older versions of google-signin, try old style result
+                idToken = signInResult.idToken;
+            }
+            if (!idToken) {
+                throw new Error('No ID token found');
+            }
+            // Create a Google credential with the token
+            const googleCredential = auth.GoogleAuthProvider.credential(signInResult.data.idToken);
+            // Sign-in the user with the credential
+            return auth().signInWithCredential(googleCredential);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     const handleSubmit = async () => {
         console.log(errors)
         try {
@@ -76,7 +111,7 @@ const LoginScreen = () => {
                     <Text style={styles.loginButtonText} onPress={handleSubmit}>Login</Text>
                 </TouchableOpacity>
                 <Text style={styles.continueText}>or continue with</Text>
-                <TouchableOpacity style={styles.googleButtonWrapper}>
+                <TouchableOpacity style={styles.googleButtonWrapper} onPress={onGoogleButtonPress}>
                     <Ionicons name={"logo-google"} size={25} style={{ marginTop: -3 }} />
                     <Text style={styles.googleText}>Google</Text>
                 </TouchableOpacity>

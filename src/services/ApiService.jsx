@@ -52,7 +52,8 @@ const Apis = {
   getUser: (userId) => apiRequest('get', `/users/${userId}`),
   updateUser: (userId, payload) => apiRequest('patch', `/users/${userId}`, payload),
   getUserDetails: () => apiRequest('get', '/users/fetchDetails'),
-  updateProfile: (payload) => apiRequest('patch', '/users/updateMe', { payload })
+  updateProfile: (payload) => apiRequest('patch', '/users/updateMe', { payload }),
+  verifyGoogleToken: (payload) => apiRequest('post', '/users/verifyGoogleToken', payload)
 };
 
 export default Apis;

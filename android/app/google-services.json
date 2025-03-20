@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "721406346367",
+    "project_id": "react-native-base-c9050",
+    "storage_bucket": "react-native-base-c9050.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721406346367:android:061946b9fa42f2ac866b4a",
+        "android_client_info": {
+          "package_name": "com.baseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721406346367-455o8860d4u6uda63496q6rjfbmlsnbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfyJuFO3MMWiFyPHKpTTiUASwwJzW7jZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721406346367-455o8860d4u6uda63496q6rjfbmlsnbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
