@@ -11,7 +11,7 @@ import UserList from './src/screen/UserList';
 import UserDetails from './src/screen/UserDetails';
 import UserProfile from './src/screen/UserProfile';
 import messaging from '@react-native-firebase/messaging';
-import { Notifications } from 'react-native-notifications';
+// import { Notifications } from 'react-native-notifications';
 
 
 
@@ -34,30 +34,30 @@ const App = () => {
     console.log("fcm Token:", token)
   }
 
-  const showLocalNotification = (remoteMessage) => {
-    Notifications.postLocalNotification({
-      title: remoteMessage.notification.title,
-      body: remoteMessage.notification.body,
-      id: remoteMessage.messageId, // You can use a unique ID for each notification
-    });
-  };
+  // const showLocalNotification = (remoteMessage) => {
+  //   Notifications.postLocalNotification({
+  //     title: remoteMessage.notification.title,
+  //     body: remoteMessage.notification.body,
+  //     id: remoteMessage.messageId, // You can use a unique ID for each notification
+  //   });
+  // };
 
   useEffect(() => {
     requestUserPermission();
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log("Notification received in foreground", remoteMessage);
-      showLocalNotification(remoteMessage);
+      // showLocalNotification(remoteMessage);
     })
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('Notification caused app to open from background state:', remoteMessage);
-    });
+    // messaging().onNotificationOpenedApp(remoteMessage => {
+    //   console.log('Notification caused app to open from background state:', remoteMessage);
+    // });
 
-    messaging().getInitialNotification().then(remoteMessage => {
-      if (remoteMessage) {
-        console.log('Notification caused app to open from quit state:', remoteMessage);
-      }
-    });
+    // messaging().getInitialNotification().then(remoteMessage => {
+    //   if (remoteMessage) {
+    //     console.log('Notification caused app to open from quit state:', remoteMessage);
+    //   }
+    // });
     return unsubscribe;
   }, [])
 
